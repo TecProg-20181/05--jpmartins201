@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
+from contracts import contract
 
 import argparse
 import os
@@ -51,7 +52,9 @@ def bytes_to_readable(blocks):
     labels = ['B', 'Kb', 'Mb', 'Gb', 'Tb']
     return '{:.2f}{}'.format(round(byts/(1024.0**count), 2), labels[count])
 
-
+@contract(file_tree='dict(str:*)', file_tree_node='dict(str:*)', largest_size='int|float, >=0',
+          path='dict(str:*)',
+          total_size='int|float, >=0')
 def print_tree(file_tree, file_tree_node, path, largest_size, total_size,
                depth=0):
     percentage = int(file_tree_node['size'] / float(total_size) * 100)
