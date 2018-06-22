@@ -23,8 +23,9 @@ class TestDiskspace(unittest.TestCase):
       def test_show_space_list(self):
             capturedOutput = StringIO.StringIO()
             sys.stdout = capturedOutput
-            diskspace.show_space_list(diskspace.args.directory, diskspace.args.depth,
-                         order=(diskspace.args.order == 'desc'))
+            diskspace.show_space_list(diskspace.args.directory, 
+                                      diskspace.args.depth,
+                                      order=(diskspace.args.order == 'desc'))
             sys.stdout = sys.__stdout__
             self.assertIn('Size (%) File' and self.abs_directory, capturedOutput.getvalue().strip())
 
@@ -35,6 +36,10 @@ class TestDiskspace(unittest.TestCase):
       def test_bytes_to_readable_none(self):
             blocks = 0
             self.assertEqual(diskspace.bytes_to_readable(blocks),  '0.00B')
+
+      def test_bytes_to_readable_wrong(self):
+            blocks = 0
+            self.assertNotEqual(diskspace.bytes_to_readable(blocks), "100.0Kb")
 
       def test_subprocess_check_output(self):
             directory = diskspace.subprocess_check_output(self.cmd)
